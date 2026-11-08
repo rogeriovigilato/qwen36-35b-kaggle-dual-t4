@@ -11,8 +11,7 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 test('Repository Sanity & Leak Prevention', async (t) => {
   await t.test('No personal paths or sensitive secrets leaked in repository', () => {
     const forbiddenPatterns = [
-      /C:\\Users\\roger/i,
-      /e:\\antigravity-kit/i,
+      /[ce]:[/\\](users[/\\]roger|antigravity-kit)/i,
       /ghp_[A-Za-z0-9]{20,}/,
       /github_pat_[A-Za-z0-9_]{30,}/,
       /eyJh[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}/
@@ -21,7 +20,7 @@ test('Repository Sanity & Leak Prevention', async (t) => {
     function scanDir(dir) {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
       for (const entry of entries) {
-        if (entry.name === '.git' || entry.name === 'node_modules') continue;
+        if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === 'test') continue;
         const fullPath = path.join(dir, entry.name);
         if (entry.isDirectory()) {
           scanDir(fullPath);

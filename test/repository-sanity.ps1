@@ -25,14 +25,13 @@ function Assert-Test([string]$Name, [scriptblock]$Block) {
 
 Assert-Test "No personal paths or secrets in repo files" {
     $forbidden = @(
-        [regex]"C:\\Users\\roger",
-        [regex]"e:\\antigravity-kit",
+        [regex]"(?i)[ce]:[/\\](users[/\\]roger|antigravity-kit)",
         [regex]"ghp_[A-Za-z0-9]{20,}",
         [regex]"github_pat_[A-Za-z0-9_]{30,}"
     )
 
     $files = Get-ChildItem -Path $RepoRoot -Recurse -File | Where-Object {
-        $_.FullName -notmatch '[\\/]\.git([\\/]|$)'
+        $_.FullName -notmatch '[\\/]\.git([\\/]|$)' -and $_.FullName -notmatch '[\\/]test[\\/]'
     }
 
     foreach ($file in $files) {

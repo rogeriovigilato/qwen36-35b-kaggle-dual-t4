@@ -16,6 +16,8 @@ import time
 from collections import deque
 from pathlib import Path
 
+from typing import Any, Sequence
+
 import requests
 
 # ============================================================
@@ -38,7 +40,9 @@ STARTUP_TIMEOUT = 1800
 # In Kaggle, only /kaggle/working is persisted across sessions (~20 GiB quota).
 # /kaggle/working is typically mounted with 'noexec'. We cache the built binaries
 # in /kaggle/working, ensure chmod 0o755, and execute cloudflared from /usr/local/bin.
-KAGGLE_WORKING = Path("/kaggle/working") if Path("/kaggle/working").exists() else Path("/content")
+KAGGLE_WORKING = Path("/kaggle/working") if Path("/kaggle/working").exists() else (
+    Path("/content") if Path("/content").exists() else Path.cwd()
+)
 KAGGLE_INPUT = Path("/kaggle/input")
 
 SOURCE_DIR = KAGGLE_WORKING / "llama.cpp"
@@ -64,18 +68,18 @@ MODEL_DIR = Path("/tmp/models")
 # env["LLAMA_API_KEY"] = API_KEY
 
 
-def run(args, **kwargs):
-    subprocess.run([str(a) for a in args], check=True, **kwargs)
+def run(args: Sequence[Any], **kwargs: Any) -> subprocess.CompletedProcess:
+    return subprocess.run([str(a) for a in args], check=True, **kwargs)
 
 
-def tail(path, lines=60):
+def tail(path: Path, lines: int = 60) -> str:
     if not path.exists():
         return "(log file not created yet)"
     with path.open(errors="replace") as f:
         return "".join(deque(f, maxlen=lines))
 
 
-def stop_process(proc):
+def stop_process(proc: subprocess.Popen | None) -> None:
     if proc is None or proc.poll() is not None:
         return
     proc.terminate()
