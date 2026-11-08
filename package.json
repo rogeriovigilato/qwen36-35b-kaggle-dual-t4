@@ -1,0 +1,20 @@
+{
+  "name": "qwen36-35b-kaggle-dual-t4",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "⚡ Qwen3.6-35B-A3B (MoE) High-Context (256K) Server on Kaggle Dual NVIDIA Tesla T4 (2x 16GB) with FlashAttention & Cloudflare Tunnel.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "qwen",
+    "kaggle",
+    "tesla-t4",
+    "llama-cpp",
+    "cloudflare-tunnel",
+    "multi-gpu",
+    "moe"
+  ],
+  "author": "Rogério Vigilato Rodrigues Filho",
+  "license": "MIT"
+}

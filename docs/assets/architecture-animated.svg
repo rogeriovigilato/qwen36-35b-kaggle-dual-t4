@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050814" />
+      <stop offset="50%" stop-color="#091024" />
+      <stop offset="100%" stop-color="#050b18" />
+    </linearGradient>
+
+    <linearGradient id="cardGradCyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0c1930" stop-opacity="0.94" />
+      <stop offset="100%" stop-color="#071020" stop-opacity="0.98" />
+    </linearGradient>
+
+    <linearGradient id="cardGradPurple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#191233" stop-opacity="0.94" />
+      <stop offset="100%" stop-color="#0d0920" stop-opacity="0.98" />
+    </linearGradient>
+
+    <linearGradient id="cardGradEmerald" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#082420" stop-opacity="0.94" />
+      <stop offset="100%" stop-color="#051514" stop-opacity="0.98" />
+    </linearGradient>
+
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="glowEmerald" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    .title { font-family: system-ui, -apple-system, sans-serif; font-size: 21px; font-weight: 800; fill: #ffffff; letter-spacing: 0.5px; }
+    .subtitle { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; fill: #94a3b8; }
+    .node-title { font-family: system-ui, -apple-system, sans-serif; font-size: 13.5px; font-weight: 700; letter-spacing: 0.4px; }
+    .node-sub { font-family: system-ui, -apple-system, sans-serif; font-size: 10.5px; fill: #94a3b8; }
+    .badge { font-family: Consolas, monospace; font-size: 9.5px; font-weight: 700; }
+    .item-text { font-family: Consolas, monospace; font-size: 10px; fill: #cbd5e1; }
+    .mono { font-family: Consolas, monospace; }
+    .flow-line { stroke-dasharray: 6 6; animation: dash 1.6s linear infinite; }
+    .flow-line-rev { stroke-dasharray: 6 6; animation: dashRev 1.6s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -24; } }
+    @keyframes dashRev { to { stroke-dashoffset: 24; } }
+  </style>
+
+  <!-- Background -->
+  <rect width="1200" height="540" rx="16" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Grid overlay -->
+  <g opacity="0.06" stroke="#38bdf8" stroke-width="1">
+    <line x1="0" y1="90" x2="1200" y2="90" />
+    <line x1="0" y1="180" x2="1200" y2="180" />
+    <line x1="0" y1="270" x2="1200" y2="270" />
+    <line x1="0" y1="360" x2="1200" y2="360" />
+    <line x1="0" y1="450" x2="1200" y2="450" />
+    <line x1="200" y1="0" x2="200" y2="540" />
+    <line x1="400" y1="0" x2="400" y2="540" />
+    <line x1="600" y1="0" x2="600" y2="540" />
+    <line x1="800" y1="0" x2="800" y2="540" />
+    <line x1="1000" y1="0" x2="1000" y2="540" />
+  </g>
+
+  <!-- Header Section -->
+  <g transform="translate(40, 32)">
+    <circle cx="16" cy="18" r="8" fill="#38bdf8" filter="url(#glowCyan)" />
+    <circle cx="16" cy="18" r="4" fill="#ffffff" />
+    <text x="36" y="24" class="title">QWEN 3.6-35B-A3B (MoE) × KAGGLE DUAL TESLA T4 ARCHITECTURE</text>
+    <text x="36" y="44" class="subtitle">Multi-GPU Layer Splitting (-sm layer) • 262,144 Context (256K) • FlashAttention • OpenAI /v1 Endpoint</text>
+  </g>
+
+  <!-- Live Pulse Badge -->
+  <g transform="translate(990, 36)">
+    <rect width="170" height="32" rx="16" fill="#0c1930" stroke="#0284c7" stroke-width="1.2" />
+    <circle cx="20" cy="16" r="4.5" fill="#10b981">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.8s" repeatCount="indefinite" />
+    </circle>
+    <text x="34" y="20" class="mono" font-size="10" fill="#38bdf8" font-weight="700">32GB VRAM ONLINE</text>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- TIER 1: KAGGLE DUAL TESLA T4 HARDWARE (LEFT) -->
+  <!-- ======================================================================= -->
+  <g transform="translate(36, 114)">
+    <rect x="0" y="0" width="335" height="330" rx="14" fill="url(#cardGradCyan)" stroke="#0284c7" stroke-width="1.8" />
+    <rect x="0" y="0" width="335" height="48" rx="14" fill="#075985" fill-opacity="0.6" />
+    <text x="18" y="24" class="node-title" fill="#e0f2fe">1. KAGGLE DUAL GPU (2x TESLA T4)</text>
+    <text x="18" y="40" class="node-sub">Ubuntu Container • libcuda.so Fix • sm_75 Build</text>
+
+    <g transform="translate(16, 60)">
+      <rect width="303" height="52" rx="8" fill="#091526" stroke="#0284c7" stroke-width="1" />
+      <text x="12" y="20" class="badge" fill="#38bdf8">GPU 0: NVIDIA TESLA T4 (16 GB)</text>
+      <text x="12" y="38" class="item-text">Layers 0-19 + KV Cache (FlashAttention ON)</text>
+    </g>
+
+    <g transform="translate(16, 122)">
+      <rect width="303" height="52" rx="8" fill="#091526" stroke="#0284c7" stroke-width="1" />
+      <text x="12" y="20" class="badge" fill="#22d3ee">GPU 1: NVIDIA TESLA T4 (16 GB)</text>
+      <text x="12" y="38" class="item-text">Layers 20-39 + Output Head (-sm layer)</text>
+    </g>
+
+    <g transform="translate(16, 184)">
+      <rect width="303" height="62" rx="8" fill="#091526" stroke="#0284c7" stroke-width="1" />
+      <text x="12" y="20" class="badge" fill="#7dd3fc">LLAMA.CPP COMPILER &amp; PERSISTENCE</text>
+      <text x="12" y="38" class="item-text">-DCMAKE_CUDA_ARCHITECTURES=75</text>
+      <text x="12" y="53" class="item-text">Persists binary in /kaggle/working</text>
+    </g>
+
+    <g transform="translate(16, 256)">
+      <rect width="303" height="58" rx="8" fill="#051e1b" stroke="#10b981" stroke-width="1.2" />
+      <text x="12" y="20" class="badge" fill="#34d399">CONTAINER ENVIRONMENT FIXES</text>
+      <text x="12" y="37" class="item-text">Repairs libcuda.so circular symlink loop</text>
+      <text x="12" y="51" class="item-text" fill="#a7f3d0">Executes cloudflared in /usr/local/bin</text>
+    </g>
+  </g>
+
+  <!-- Animated Connection 1 -> 2 (PCIe / Multi-GPU Bus) -->
+  <g>
+    <path d="M 371 250 L 443 250" fill="none" stroke="#06b6d4" stroke-width="2.5" class="flow-line" />
+    <path d="M 443 282 L 371 282" fill="none" stroke="#a855f7" stroke-width="2.2" class="flow-line-rev" />
+    <circle cx="407" cy="250" r="4.5" fill="#22d3ee" filter="url(#glowCyan)">
+      <animate attributeName="cx" values="375;439;375" dur="2.2s" repeatCount="indefinite" />
+    </circle>
+    <rect x="373" y="205" width="68" height="32" rx="6" fill="#0b1326" stroke="#06b6d4" stroke-width="1" />
+    <text x="407" y="219" text-anchor="middle" class="mono" font-size="9.5" fill="#38bdf8" font-weight="700">Multi-GPU</text>
+    <text x="407" y="231" text-anchor="middle" class="mono" font-size="9" fill="#94a3b8">-sm layer</text>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- TIER 2: LLAMA-SERVER INFERENCE ENGINE (CENTER) -->
+  <!-- ======================================================================= -->
+  <g transform="translate(443, 114)">
+    <rect x="0" y="0" width="335" height="330" rx="14" fill="url(#cardGradPurple)" stroke="#a855f7" stroke-width="1.8" />
+    <rect x="0" y="0" width="335" height="48" rx="14" fill="#3b0764" fill-opacity="0.6" />
+    <text x="18" y="24" class="node-title" fill="#e9d5ff">2. LLAMA-SERVER ENGINE</text>
+    <text x="18" y="40" class="node-sub">Qwen3.6-35B-A3B MoE • 256K Context Window</text>
+
+    <!-- Model Specs Box -->
+    <g transform="translate(16, 60)">
+      <rect width="303" height="54" rx="8" fill="#130d26" stroke="#9333ea" stroke-width="1" />
+      <text x="12" y="19" class="badge" fill="#d8b4fe">MIXTURE-OF-EXPERTS (MoE GGUF)</text>
+      <text x="12" y="35" class="item-text">Qwen3.6-35B-A3B-Uncensored-Q4_K_M</text>
+      <text x="12" y="48" class="item-text">Active Params: ~3B/token • High Throughput</text>
+    </g>
+
+    <!-- Context & Optimization -->
+    <g transform="translate(16, 122)">
+      <rect width="303" height="74" rx="8" fill="#130d26" stroke="#9333ea" stroke-width="1" />
+      <text x="12" y="19" class="badge" fill="#c084fc">256K CONTEXT &amp; ATTENTION FLAGS</text>
+      <text x="12" y="36" class="item-text">• Context Window: -c 262144 tokens</text>
+      <text x="12" y="51" class="item-text">• FlashAttention: -fa on (VRAM saver)</text>
+      <text x="12" y="66" class="item-text">• Cache Reuse: --cache-reuse 256</text>
+    </g>
+
+    <!-- Tool Calling & Protocol -->
+    <g transform="translate(16, 204)">
+      <rect width="303" height="110" rx="8" fill="#130d26" stroke="#9333ea" stroke-width="1" />
+      <text x="12" y="20" class="badge" fill="#f0abfc">OPENAI PROTOCOL &amp; TOOL CALLING</text>
+      <text x="12" y="38" class="item-text">• Native Tool Calling: --jinja template</text>
+      <text x="12" y="54" class="item-text">• API Path: http://127.0.0.1:5000/v1</text>
+      <text x="12" y="70" class="item-text">• Model ID: qwen3.6-35b</text>
+      <text x="12" y="86" class="item-text" fill="#a7f3d0">• Health Check: /v1/models (HTTP 200 OK)</text>
+      <text x="12" y="101" class="item-text">• WebUI: --no-webui (Pure API Daemon)</text>
+    </g>
+  </g>
+
+  <!-- Animated Connection 2 -> 3 (Cloudflare Tunnel to Web) -->
+  <g>
+    <path d="M 778 250 L 850 250" fill="none" stroke="#10b981" stroke-width="2.5" class="flow-line" />
+    <path d="M 850 282 L 778 282" fill="none" stroke="#38bdf8" stroke-width="2.2" class="flow-line-rev" />
+    <circle cx="814" cy="250" r="4.5" fill="#34d399" filter="url(#glowEmerald)">
+      <animate attributeName="cx" values="782;846;782" dur="2.0s" repeatCount="indefinite" />
+    </circle>
+    <rect x="780" y="205" width="68" height="32" rx="6" fill="#0b1326" stroke="#10b981" stroke-width="1" />
+    <text x="814" y="219" text-anchor="middle" class="mono" font-size="9.5" fill="#34d399" font-weight="700">Cloudflare</text>
+    <text x="814" y="231" text-anchor="middle" class="mono" font-size="9" fill="#94a3b8">Public SSL</text>
+  </g>
+
+  <!-- ======================================================================= -->
+  <!-- TIER 3: CLIENT APPS & OPENAI ECOSYSTEM (RIGHT) -->
+  <!-- ======================================================================= -->
+  <g transform="translate(850, 114)">
+    <rect x="0" y="0" width="314" height="330" rx="14" fill="url(#cardGradEmerald)" stroke="#10b981" stroke-width="1.8" />
+    <rect x="0" y="0" width="314" height="48" rx="14" fill="#064e3b" fill-opacity="0.65" />
+    <text x="18" y="24" class="node-title" fill="#6ee7b7">3. ANY OPENAI-COMPATIBLE CLIENT</text>
+    <text x="18" y="40" class="node-sub">Instant Global HTTPS Connection</text>
+
+    <g transform="translate(16, 60)">
+      <rect width="282" height="64" rx="8" fill="#071f1c" stroke="#059669" stroke-width="1" />
+      <text x="12" y="19" class="badge" fill="#34d399">PUBLIC QUICK TUNNEL URL</text>
+      <text x="12" y="36" class="item-text">https://*.trycloudflare.com/v1</text>
+      <text x="12" y="52" class="item-text" fill="#a7f3d0">Zero open ports • Encrypted SSL</text>
+    </g>
+
+    <g transform="translate(16, 132)">
+      <rect width="282" height="80" rx="8" fill="#071f1c" stroke="#059669" stroke-width="1" />
+      <text x="12" y="19" class="badge" fill="#6ee7b7">SUPPORTED AI APPLICATIONS</text>
+      <text x="12" y="36" class="item-text">• Web UIs: OpenWebUI, NextChat, LibreChat</text>
+      <text x="12" y="52" class="item-text">• Developer Tools: Cursor, Cline, Continue</text>
+      <text x="12" y="68" class="item-text">• Agents: AutoGen, CrewAI, LangChain</text>
+    </g>
+
+    <g transform="translate(16, 220)">
+      <rect width="282" height="94" rx="8" fill="#071f1c" stroke="#059669" stroke-width="1" />
+      <text x="12" y="19" class="badge" fill="#a7f3d0">CURL / PYTHON VERIFICATION</text>
+      <text x="12" y="37" class="item-text">curl -X POST https://.../v1/chat \</text>
+      <text x="12" y="53" class="item-text">  -H "Content-Type: application/json" \</text>
+      <text x="12" y="69" class="item-text">  -d '{"model": "qwen3.6-35b", ...}'</text>
+      <text x="12" y="85" class="item-text" fill="#38bdf8">Streaming SSE + Function Calling</text>
+    </g>
+  </g>
+
+  <!-- Bottom Workflow Bar -->
+  <g transform="translate(36, 462)">
+    <rect x="0" y="0" width="1128" height="52" rx="10" fill="#0b1326" stroke="#1e293b" stroke-width="1.5" />
+    <text x="20" y="31" class="badge" fill="#38bdf8">DEPLOYMENT PIPELINE:</text>
+    <text x="175" y="31" class="item-text" fill="#cbd5e1">
+      [1] libcuda.so Fix  ➔  [2] sm_75 CUDA Compile  ➔  [3] GGUF Verification  ➔  [4] Dual T4 -sm layer Boot  ➔  [5] Cloudflare Tunnel
+    </text>
+  </g>
+</svg>
