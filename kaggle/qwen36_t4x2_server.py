@@ -90,6 +90,23 @@ def stop_process(proc: subprocess.Popen | None) -> None:
         proc.wait(timeout=10)
 
 
+def configure_ld_library_path() -> None:
+    """Ensure dynamic linker finds llama.cpp shared libraries across builds and sessions."""
+    ld_candidates = [
+        SOURCE_DIR / "build/bin",
+        SOURCE_DIR / "build/src",
+        SOURCE_DIR / "build/common",
+        SOURCE_DIR / "build/ggml/src",
+        Path("/usr/local/cuda/lib64"),
+        Path("/usr/local/cuda/compat"),
+        Path("/usr/lib/x86_64-linux-gnu"),
+    ]
+    existing = [str(p) for p in ld_candidates if p.exists()]
+    current = os.environ.get("LD_LIBRARY_PATH", "")
+    parts = existing + ([current] if current else [])
+    os.environ["LD_LIBRARY_PATH"] = ":".join(dict.fromkeys(parts))
+
+
 # ============================================================
 # 1. DEPENDENCIES, KAGGLE LIBCUDA.SO REPAIR & STALE PROCESS CLEANUP
 # ============================================================
@@ -137,6 +154,7 @@ if libcuda_candidates:
         if dup.is_symlink():
             dup.unlink(missing_ok=True)
     run(["ldconfig"])
+    configure_ld_library_path()
 
 run([
     "nvidia-smi",
@@ -170,6 +188,8 @@ MODEL_DIR.mkdir(parents=True, exist_ok=True)
 print("\n[2/6] Checking for persisted llama-server in /kaggle/working...")
 
 need_build = True
+configure_ld_library_path()
+
 if SERVER_BIN.exists():
     try:
         for bin_file in (SOURCE_DIR / "build/bin").glob("*"):
@@ -178,8 +198,8 @@ if SERVER_BIN.exists():
         run([SERVER_BIN, "--version"])
         print("✔ Persisted llama-server found and operational! Skipping compilation.")
         need_build = False
-    except Exception:
-        print("Existing binary not executable or outdated; rebuilding...")
+    except Exception as exc:
+        print(f"Existing binary check failed ({exc}); rebuilding...")
         need_build = True
 
 if need_build:
@@ -191,9 +211,20 @@ if need_build:
             SOURCE_DIR
         ])
     elif not (SOURCE_DIR / ".git").exists():
-        raise RuntimeError(f"{SOURCE_DIR} is not a valid Git repository.")
+        shutil.rmtree(SOURCE_DIR, ignore_errors=True)
+        run([
+            "git", "clone",
+            "https://github.com/ggml-org/llama.cpp.git",
+            SOURCE_DIR
+        ])
     else:
-        run(["git", "-C", SOURCE_DIR, "pull", "--ff-only"])
+        try:
+            run(["git", "-C", SOURCE_DIR, "reset", "--hard", "HEAD"])
+            run(["git", "-C", SOURCE_DIR, "clean", "-fd"])
+            run(["git", "-C", SOURCE_DIR, "fetch", "origin", "master"])
+            run(["git", "-C", SOURCE_DIR, "reset", "--hard", "origin/master"])
+        except Exception as git_err:
+            print(f"Warning: git pull/reset encountered {git_err}; keeping existing checkout.")
 
     cuda_cmake = SOURCE_DIR / "ggml/src/ggml-cuda/CMakeLists.txt"
     if cuda_cmake.exists() and Path("/usr/lib/x86_64-linux-gnu/libcuda.so").exists():
@@ -220,6 +251,7 @@ if need_build:
         "--target", "llama-server",
         "-j", str(min(os.cpu_count() or 4, 8))
     ])
+    configure_ld_library_path()
     SERVER_BIN.chmod(0o755)
     run([SERVER_BIN, "--version"])
 
